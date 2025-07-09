@@ -804,8 +804,13 @@ def ensure_task_status_column():
         db.execute("ALTER TABLE task ADD COLUMN status TEXT DEFAULT 'Pending'")
         db.commit()
 
+import os
+
 if __name__ == "__main__":
     with app.app_context():
         create_tables()
         ensure_task_status_column()
-    app.run(debug=True, port=8000)
+    
+    port = int(os.environ.get("PORT", 10000))  # default to 10000 if PORT is not set
+    app.run(host="0.0.0.0", port=port)
+
